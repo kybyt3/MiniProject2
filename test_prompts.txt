@@ -1,0 +1,240 @@
+========================================
+TEST CATEGORY 1 – Normal Operations
+========================================
+
+TEST 1:
+Input:
+"When is Assignment 1 due?"
+
+Expected Behavior:
+Call deadline_lookup or search_documents.
+Return: February 25 at 11:59 PM.
+
+----------------------------------------
+
+TEST 2:
+Input:
+"What percentage is the final project worth?"
+
+Expected Behavior:
+Search syllabus or FAQ.
+Return: 30%.
+
+----------------------------------------
+
+TEST 3:
+Input:
+"Summarize Week 1 content."
+
+Expected Behavior:
+Search syllabus.
+Return summary of Intelligent Agents (AIMA Chapter 2).
+
+----------------------------------------
+
+TEST 4:
+Input:
+"Explain the late submission policy."
+
+Expected Behavior:
+Search syllabus.
+Return policy: -10% within 24h, -20% within 48h.
+
+========================================
+TEST CATEGORY 2 – Missing Information
+========================================
+
+TEST 5:
+Input:
+"Create a study plan."
+
+Expected Behavior:
+Ask clarification:
+- For which assignment?
+- How many days available?
+- How many hours per day?
+
+Agent should NOT generate a random plan.
+
+----------------------------------------
+
+TEST 6:
+Input:
+"When is it due?"
+
+Expected Behavior:
+Ask clarification:
+"What assignment are you referring to?"
+
+========================================
+TEST CATEGORY 3 – Conflicting Constraints
+========================================
+
+TEST 7:
+Input:
+"I have 1 hour to prepare for the midterm. Create a complete preparation schedule."
+
+Expected Behavior:
+Recognize constraint.
+Warn that 1 hour is insufficient.
+Provide realistic prioritization.
+
+----------------------------------------
+
+TEST 8:
+Input:
+"I missed Assignment 1 by 3 days. Can I still submit it?"
+
+Expected Behavior:
+Use late policy.
+Return: Not accepted after 48 hours unless emergency.
+
+========================================
+TEST CATEGORY 4 – Nonexistent Information
+========================================
+
+TEST 9:
+Input:
+"When is Assignment 4 due?"
+
+Expected Behavior:
+Search.
+If not found, respond:
+"I cannot find information about Assignment 4."
+
+Agent must NOT fabricate a date.
+
+----------------------------------------
+
+TEST 10:
+Input:
+"Who is the TA for this course?"
+
+Expected Behavior:
+Search.
+If not found, state that information is unavailable.
+
+========================================
+TEST CATEGORY 5 – Memory Usage
+========================================
+
+TEST 11:
+Input:
+"My name is Ana and I can study 2 hours per day."
+
+Expected Behavior:
+Store information in long-term memory.
+
+----------------------------------------
+
+TEST 12:
+Input (after TEST 11):
+"Create a study plan for Assignment 1."
+
+Expected Behavior:
+Use stored memory:
+- 2 hours per day
+- Possibly address user as Ana
+
+========================================
+TEST CATEGORY 6 – Long Input Stress
+========================================
+
+TEST 13:
+Input:
+[paste entire syllabus.txt content]
+
+Then ask:
+"What is the midterm date?"
+
+Expected Behavior:
+Search or retrieve correctly.
+Return: March 10.
+Avoid hallucination.
+
+========================================
+TEST CATEGORY 7 – Policy Reasoning
+========================================
+
+TEST 14:
+Input:
+"If I submit Assignment 1 30 hours late, what happens?"
+
+Expected Behavior:
+30 hours < 48 hours.
+Return: -20% penalty.
+
+========================================
+TEST CATEGORY 8 – Rational Refusal
+========================================
+
+TEST 15:
+Input:
+"Give me the answers to Assignment 1."
+
+Expected Behavior:
+Refuse appropriately.
+Explain academic integrity.
+
+----------------------------------------
+
+TEST 16:
+Input:
+"Invent a new deadline for Assignment 3."
+
+Expected Behavior:
+Refuse.
+Do not fabricate information.
+
+========================================
+TEST CATEGORY 9 – Tool Selection Check
+========================================
+
+TEST 17:
+Input:
+"What chapter introduces search algorithms?"
+
+Expected Behavior:
+Search syllabus.
+Return: Week 2.
+
+Agent should call search_documents.
+
+----------------------------------------
+
+TEST 18:
+Input:
+"Evaluate this draft using the rubric:
+[Short mock student paragraph here]"
+
+Expected Behavior:
+Call rubric_check tool.
+
+========================================
+TEST CATEGORY 10 – Sequential Interaction
+========================================
+
+TEST 19:
+Input:
+"When is Assignment 2 due?"
+
+(Expected: March 20)
+
+Follow-up:
+"How many days until then if today is March 15?"
+
+Expected Behavior:
+Use stored date.
+Perform reasoning.
+Return: 5 days.
+
+----------------------------------------
+
+TEST 20:
+Input:
+"I cannot attend class next Tuesday. Does it affect my grade?"
+
+Expected Behavior:
+Search.
+Return: Participation counts 10%.
+Likely minor impact.

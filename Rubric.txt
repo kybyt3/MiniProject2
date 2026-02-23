@@ -1,0 +1,35 @@
+Final Project Rubric – LLM-Based Rational Agent (100 points)
+
+AIMA Mapping (20 points)
+- Clear PEAS mapping
+- Accurate description of rationality
+
+Tool Implementation (20 points)
+- At least three tools implemented
+- Tools function correctly
+
+Tool Selection Behavior (10 points)
+- Agent chooses tools appropriately
+- Avoids unnecessary tool calls
+
+Memory Design (15 points)
+- Short-term memory implemented
+- Long-term memory implemented
+- Memory used consistently
+
+Decision Logic (15 points)
+- Asks clarification when needed
+- Handles missing information
+- Avoids hallucination
+
+Reliability (10 points)
+- Accurate deadline retrieval
+- Accurate rubric evaluation
+- No fabricated information
+
+Testing & Evaluation (5 points)
+- Structured test cases included
+
+Documentation & Demo (5 points)
+- Clear explanation
+- Functional demo

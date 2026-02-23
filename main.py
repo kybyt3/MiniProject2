@@ -1,8 +1,4 @@
-from dotenv import load_dotenv
-import os
+from agent import agent #importing our agent
 
-load_dotenv() #this will laod the variables from .env
-
-api_key = os.getenv("OPENAI_API_KEY")#this will get the API key
-
-print("API key loaded successfully!") # this si to make sure our api loaded successfully
+response = agent.run("When is Assignment 1 due?")
+print("Agent:", response)
