@@ -4,6 +4,8 @@ import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.vectorstores import FAISS
+from langchain.agents import initialize_agent, AgentType
+from tools import search_documents, deadline_lookup, rubric_check #this is importing our tools
 
 load_dotenv() #load environment
 
@@ -13,13 +15,12 @@ if api_key is None:
 
 llm = ChatOpenAI(model="gpt-5-mini", temperature=0, openai_api_key=api_key) # setting up mini 5
 
+# reating embeddings for vector search
+embeddings = OpenAIEmbeddings(openai_api_key=api_key)
 
 #loading all text files inside docs folder
 loader = DirectoryLoader("docs", glob="*.txt", loader_cls=TextLoader)
 documents = loader.load()
-
-# reating embeddings for vector search
-embeddings = OpenAIEmbeddings(openai_api_key=api_key)
 
 #storing vectors inside FAISS
 vectorstore = FAISS.from_documents(documents, embeddings)
