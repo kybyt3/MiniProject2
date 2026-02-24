@@ -26,10 +26,7 @@ vectorstore = FAISS.from_documents(documents, embeddings)
 retriever = vectorstore.as_retriever()
 
 #deadline related files
-deadline_loader = DirectoryLoader("docs", glob="*deadline", loader_cls=TextLoader)
-deadline_docs = deadline_loader.load()
-deadline_store= FAISS.from_documents(deadline_docs, embeddings)
-deadline_retriever= deadline_store.as_retriever()
+deadline_retriever= retriever
 
 #this wil lloead the rubric once so we dont have to load it everytime
 with open("docs/Rubric.txt", "r") as f:
@@ -46,7 +43,7 @@ def rubric_check_wrapped(draft_text: str) -> str:
 tools =[
     Tool(name="search_documents", func=search_documents_wrapped, description= "Search general course cdocuments like syllabus, policies, instructions, etc"),
     Tool(name="deadline_lookup", func=deadline_lookup_wrapped, description= "Look up assignments due dates and deadlines"),
-    Tool(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= "Grade or give feedback on a draft using the rubric"),
+    Tool(name="rubric_check", func=rubric_check_wrapped, description= "Grade or give feedback on a draft using the rubric"),
 ]
 
 try:
@@ -54,3 +51,4 @@ try:
 except Exception:
     from langgraph.prebuilt import create_react_agent as _create_agent
 
+agent= _create_agent(llm, tools)
