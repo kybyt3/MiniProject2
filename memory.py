@@ -1,8 +1,6 @@
 from langchain_classic.memory import ConversationSummaryBufferMemory
 from langchain_community.vectorstores import Chroma
 
-
-
 # implementing short-term memory
 def short_memory(llm):
     return ConversationSummaryBufferMemory(
@@ -26,5 +24,3 @@ def retrieve_long_term_memory(vector_store, query: str, k: int = 3) -> str:
     if not docs:
         return ""
     return "\n".join([doc.page_content for doc in docs])
-
-

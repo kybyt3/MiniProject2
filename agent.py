@@ -5,6 +5,7 @@ from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain_core.tools import Tool
 from tools import search_documents, deadline_lookup, rubric_check #this is importing our tools
+from memory import build_long_term_mem, short_memory, store_long_term_memory, retrieve_long_term_memory
 
 load_dotenv() #load environment
 
@@ -16,6 +17,10 @@ llm = ChatOpenAI(model="gpt-5-mini", temperature=0, openai_api_key=api_key) # se
 
 # reating embeddings for vector search
 embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+
+#this makes shorterm and longterm memory objects
+memory= build_long_term_mem(llm)
+vector_store= build_long_term_mem(embeddings)
 
 #loading all text files inside docs folder
 loader = DirectoryLoader("docs", glob="*.txt", loader_cls=TextLoader)
