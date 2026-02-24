@@ -5,6 +5,7 @@ from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.vectorstores import FAISS
 from langchain.agents import initialize_agent, AgentType
+from langchain_core.tools import Tool
 from tools import search_documents, deadline_lookup, rubric_check #this is importing our tools
 
 load_dotenv() #load environment
@@ -46,12 +47,14 @@ def rubric_check_wrapped(draft_text: str) -> str:
 
 
 tools =[
-    type(search_documents)(name="search_documents", func=search_documents_wrapped, description= search_documents.description),
-    type(deadline_lookup)(name="deadline_lookup", func=deadline_lookup_wrapped, description= deadline_lookup.description),
-    type(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= rubric_check.description),
+    Tool(name="search_documents", func=search_documents_wrapped, description= "Search general course cdocuments like syllabus, policies, instructions, etc"),
+    Tool(name="deadline_lookup", func=deadline_lookup_wrapped, description= "Look up assignments due dates and deadlines"),
+    Tool(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= "Grade or give feedback on a draft using the rubric"),
 ]
 
-
-
-
-agent = SimpleAgent(llm, retriever)
+agent= initialize_agent(
+    tools= tools,
+    llm= llm,
+    agent= AgentType.OPENAI_FUNCTIONS,
+    verbose= True
+)

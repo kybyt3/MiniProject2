@@ -1,7 +1,7 @@
 from agent import agent #importing agent
 
 if __name__ == "__main__":
-    print("MiniProject2 Agent is running...\n")
+    print("Carlitos Agent is running...\n")
 
     while True:
         user_input = input("You: ")
@@ -11,5 +11,5 @@ if __name__ == "__main__":
             break
 
         response = agent.run(user_input)
-        print("\nAgent:", response)
+        print("\nCarlitos Agent:", response)
         print()
