@@ -1,6 +1,9 @@
 from dotenv import load_dotenv
+from tools import search_documents
 import os
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_community.document_loaders import DirectoryLoader, TextLoader
+from langchain_community.vectorstores import FAISS
 
 load_dotenv() #load environment
 
@@ -8,20 +11,32 @@ api_key = os.getenv("OPENAI_API_KEY") #getting the api key
 if api_key is None:
     raise ValueError("OPENAI_API_KEY not found in environment OH HELL NAH!")
 
-llm = ChatOpenAI(model="gpt-5-mini", temperature=0, openai_api_key=api_key)#setting up mini 5
+llm = ChatOpenAI(model="gpt-5-mini", temperature=0, openai_api_key=api_key) # setting up mini 5
 
 
-def dummy_tool(query): #dummy tool jsut to test
-    return "This is a dummy response."
+#loading all text files inside docs folder
+loader = DirectoryLoader("docs", glob="*.txt", loader_cls=TextLoader)
+documents = loader.load()
 
-class SimpleAgent: # running the agent
-    def __init__(self, llm, tools):
+# reating embeddings for vector search
+embeddings = OpenAIEmbeddings(openai_api_key=api_key)
+
+#storing vectors inside FAISS
+vectorstore = FAISS.from_documents(documents, embeddings)
+retriever = vectorstore.as_retriever()
+
+
+class SimpleAgent: #running the agent
+    def __init__(self, llm, retriever):
         self.llm = llm
-        self.tools = tools
+        self.retriever = retriever
     
     def run(self, query):
-        tool_func = list(self.tools.values())[0]
-        return tool_func(query)
+        # calling the search_documents tool with retriever
+        return search_documents.invoke({
+            "query": query,
+            "retriever": self.retriever
+        })
 
-tools = {"dummy_tool": dummy_tool}
-agent = SimpleAgent(llm, tools)
+
+agent = SimpleAgent(llm, retriever)
