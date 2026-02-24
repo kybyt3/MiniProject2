@@ -21,10 +21,25 @@ class CarlitosAgent: #this is to mange the UI window
         )
         #this is so we can paste the syllabus without breaking the terminal input
         self.input_box= tk.Text(root,height=4)
-        self.input_box,pack(
+        self.input_box.pack(
             padx=10,
             paddy=(0,5),
             fill= tk.X
         )
-        
+        button_frame= tk.Frame(root) #evrything after this is for the buttons
+        button_frame.pack(paddy=(0,10))
+
+        self.send_button= tk.Button( #to send input
+            button_frame,
+            text= "SEND",
+            command=self.send_message
+        )
+        self.clear_button= tk.Button(#for the clear chat button
+            button_frame,
+            text="CLEAR CHAT",
+            command=self.clear_chat
+        )
+
+
+
 
