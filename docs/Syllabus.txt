@@ -1,0 +1,49 @@
+Course: Artificial Intelligence
+Instructor: Dr. Luis Jaimes
+Semester: Spring 2026
+
+Course Description:
+This course introduces the foundations of Artificial Intelligence, including rational agents, search, knowledge representation, reasoning, planning, uncertainty, and modern LLM-based systems.
+
+Primary Text:
+Russell & Norvig, Artificial Intelligence: A Modern Approach (4th Edition)
+
+Course Structure:
+- Weekly lectures
+- Programming assignments
+- One midterm exam
+- Final project (LLM-based rational agent)
+
+Grading Breakdown:
+- Assignments: 30%
+- Midterm Exam: 20%
+- Final Project: 30%
+- Participation: 10%
+- Quizzes: 10%
+
+Important Dates:
+Assignment 1 due: February 25
+Assignment 2 due: March 20
+Midterm Exam: March 10
+Final Project Proposal: April 5
+Final Project Demo: April 28
+
+Late Policy:
+Assignments submitted within 24 hours: -10%
+Within 48 hours: -20%
+After 48 hours: Not accepted unless documented emergency.
+
+Course Topics:
+Week 1: Intelligent Agents (AIMA Chapter 2)
+Week 2: Search Algorithms
+Week 3: Adversarial Search
+Week 4: Knowledge Representation
+Week 5: Logical Inference
+Week 6: Planning
+Week 7: Uncertainty and Bayesian Networks
+Week 8: Machine Learning Basics
+Week 9: Modern LLM-Based Agents
+
+Office Hours:
+Tuesdays 3–5 PM
+Thursdays 1–3 PM

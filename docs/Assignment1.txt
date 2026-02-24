@@ -1,0 +1,33 @@
+Assignment 1: Rational Agent Design
+
+Objective:
+Design and analyze a rational agent using the PEAS framework.
+
+Instructions:
+1. Define the environment in which your agent operates.
+2. Clearly describe:
+   - Performance Measure
+   - Environment
+   - Actuators
+   - Sensors
+3. Provide a diagram of the agent architecture.
+4. Explain whether the environment is:
+   - Fully or partially observable
+   - Deterministic or stochastic
+   - Episodic or sequential
+   - Static or dynamic
+   - Discrete or continuous
+
+Deliverables:
+- 2–3 page PDF report
+- Architecture diagram
+- Formal PEAS table
+
+Due Date:
+February 25 at 11:59 PM
+
+Grading Criteria:
+- Clarity of PEAS definition
+- Correct classification of the environment
+- Quality of reasoning
+- Diagram clarity

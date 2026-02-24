@@ -1,0 +1,28 @@
+Frequently Asked Questions – AI Course
+
+Q: When is Assignment 1 due?
+A: February 25 at 11:59 PM.
+
+Q: Is late submission allowed?
+A: Yes, within 48 hours with penalty.
+
+Q: When is the midterm exam?
+A: March 10.
+
+Q: What percentage is the final project worth?
+A: 30% of the final grade.
+
+Q: Can I work in teams for Assignment 1?
+A: No, Assignment 1 is individual.
+
+Q: Can I use external libraries?
+A: Yes, but you must explain them in your report.
+
+Q: What is covered in Week 1?
+A: Intelligent Agents (AIMA Chapter 2).
+
+Q: Is attendance mandatory?
+A: Participation counts for 10%.
+
+Q: What chapter covers search?
+A: Search algorithms are introduced in Week 2.
