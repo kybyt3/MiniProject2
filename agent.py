@@ -3,10 +3,6 @@ import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.vectorstores import FAISS
-from langchain.agents import create_openai_functions_agent
-from langchain.agents.agent import AgentExcutor
-
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.tools import Tool
 from tools import search_documents, deadline_lookup, rubric_check #this is importing our tools
 
@@ -52,13 +48,9 @@ tools =[
     Tool(name="deadline_lookup", func=deadline_lookup_wrapped, description= "Look up assignments due dates and deadlines"),
     Tool(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= "Grade or give feedback on a draft using the rubric"),
 ]
-prompt = ChatPromptTemplate.from_messages([
-    ("system",
-    "This is a raitonal course assistant"
-    "Do not invent deadlines or policies.If the documents do not contain answer say so"),
-    ("human", "{input}"),
-    MessagesPlaceholder(variable_name="agent_scratchpad")
-])
 
-_agent= create_openai_funtions_agent(llm=llm, tools=tools, prompt= prompt)
-agent= AgentExecutor(agent=_agent, tools=tools, verbose=True)
+try:
+    from langchain.agents import create_agent as _create_agent
+except Exception:
+    from langgraph.prebuilt import create_react_agent as _create_agent
+
