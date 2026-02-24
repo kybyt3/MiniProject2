@@ -1,17 +1,12 @@
-import os
-from typing import List
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
-from langchain.agents import create_openai_tools_agent, AgentExecutor
-from langchain.tools import tool
 from langchain_classic.memory import ConversationSummaryBufferMemory
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_community.vectorstores import Chroma
 
 
 
 # implementing short-term memory
-memory = ConversationSummaryBufferMemory(
-    llm=ChatOpenAI(model="gpt-5-mini", temperature=0.7),
+def short_memory(llm):
+    return ConversationSummaryBufferMemory(
+    llm=llm
     max_token_limit=500,
     return_messages=True
 )

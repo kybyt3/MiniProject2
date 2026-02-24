@@ -10,11 +10,13 @@ bcrypt==5.0.0
 build==1.4.0
 certifi==2026.1.4
 charset-normalizer==3.4.4
+Chroma==0.2.0
 chromadb==1.5.1
 click==8.3.1
 dataclasses-json==0.6.7
 distro==1.9.0
 durationpy==0.10
+faiss-cpu==1.13.2
 filelock==3.24.3
 flatbuffers==25.12.19
 frozenlist==1.8.0
