@@ -5,7 +5,7 @@ from langchain_openai import OpenAIEmbeddings # converts text from documents int
 from langchain_community.vectorstores import FAISS # actually stores document vectors for similarity search
 
 # loads all text files
-loader = DirectoryLoader("docs", glob="*.txt") 
+loader = DirectoryLoader("docs", glob="*.txt", loader_cls=TextLoader)
 documents = loader.load()
 
 # embeds text into vectors to retrieve and search
@@ -17,8 +17,8 @@ retriever = vectorstore.as_retriever()
 @tool
 def search_documents(query: str) -> str:
     """Search the provided local course files and return relevant content."""
-
-    results = "\n\n".join([doc.page_content for doc in "/docs"])
+    docs = retriever.get_relevant_documents(query)
+    results = "\n\n".join([doc.page_content for doc in docs])
     return results
 
 if __name__ == "__main__":
