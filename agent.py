@@ -26,18 +26,18 @@ documents = loader.load()
 vectorstore = FAISS.from_documents(documents, embeddings)
 retriever = vectorstore.as_retriever()
 
+#deadline related files
+deadline_loader = DirectoryLoader("docs", glob="*deadline", loader_cls=TextLoader)
+deadline_docs = deadline_loader.load()
+deadline_store= FAISS.from_documents(deadline_docs, embeddings)
+deadline_retriver= deadline_store.as_retriver()
 
-class SimpleAgent: #running the agent
-    def __init__(self, llm, retriever):
-        self.llm = llm
-        self.retriever = retriever
-    
-    def run(self, query):
-        # calling the search_documents tool with retriever
-        return search_documents.invoke({
-            "query": query,
-            "retriever": self.retriever
-        })
+
+#this wil lloead the rubric once so we dont have to load it everytime
+with open("docs/Rubric.txt", "r") as f:
+    rubric_text= f.read()
+
+tools =[]
 
 
 agent = SimpleAgent(llm, retriever)
