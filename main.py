@@ -10,6 +10,6 @@ if __name__ == "__main__":
             print("Exiting agent...")
             break
 
-        response = agent.run(user_input)
-        print("\nCarlitos Agent:", response)
+        response = agent.invoke({"input":user_input})
+        print("\nCarlitos Agent:", response["output"])
         print()

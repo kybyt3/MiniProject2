@@ -1,10 +1,12 @@
 from dotenv import load_dotenv
-from tools import search_documents
 import os
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader, TextLoader
 from langchain_community.vectorstores import FAISS
-from langchain.agents import initialize_agent, AgentType
+from langchain.agents import create_openai_functions_agent
+from langchain.agents.agent import AgentExcutor
+
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.tools import Tool
 from tools import search_documents, deadline_lookup, rubric_check #this is importing our tools
 
@@ -31,7 +33,7 @@ retriever = vectorstore.as_retriever()
 deadline_loader = DirectoryLoader("docs", glob="*deadline", loader_cls=TextLoader)
 deadline_docs = deadline_loader.load()
 deadline_store= FAISS.from_documents(deadline_docs, embeddings)
-deadline_retriever= deadline_store.as_retriver()
+deadline_retriever= deadline_store.as_retriever()
 
 #this wil lloead the rubric once so we dont have to load it everytime
 with open("docs/Rubric.txt", "r") as f:
@@ -45,16 +47,18 @@ def deadline_lookup_wrapped(task_name: str)-> str:
 def rubric_check_wrapped(draft_text: str) -> str:
     return rubric_check.invoke({"draft_text": draft_text, "rubric_text": rubric_text, "llm": llm})
 
-
 tools =[
     Tool(name="search_documents", func=search_documents_wrapped, description= "Search general course cdocuments like syllabus, policies, instructions, etc"),
     Tool(name="deadline_lookup", func=deadline_lookup_wrapped, description= "Look up assignments due dates and deadlines"),
     Tool(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= "Grade or give feedback on a draft using the rubric"),
 ]
+prompt = ChatPromptTemplate.from_messages([
+    ("system",
+    "This is a raitonal course assistant"
+    "Do not invent deadlines or policies.If the documents do not contain answer say so"),
+    ("human", "{input}"),
+    MessagesPlaceholder(variable_name="agent_scratchpad")
+])
 
-agent= initialize_agent(
-    tools= tools,
-    llm= llm,
-    agent= AgentType.OPENAI_FUNCTIONS,
-    verbose= True
-)
+_agent= create_openai_funtions_agent(llm=llm, tools=tools, prompt= prompt)
+agent= AgentExecutor(agent=_agent, tools=tools, verbose=True)
