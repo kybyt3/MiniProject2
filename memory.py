@@ -1,5 +1,5 @@
 from langchain_classic.memory import ConversationSummaryBufferMemory
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 # implementing short-term memory
 def short_memory(llm):
