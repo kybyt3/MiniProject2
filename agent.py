@@ -32,8 +32,12 @@ deadline_docs = deadline_loader.load()
 deadline_store= FAISS.from_documents(deadline_docs, embeddings)
 deadline_retriever= deadline_store.as_retriver()
 
+#this wil lloead the rubric once so we dont have to load it everytime
+with open("docs/Rubric.txt", "r") as f:
+    rubric_text= f.read()
+
 #wrapped funcitons so the agent can pass our tools wothout having topass extra arguments manually
-def search_docments_wrapped(query:str) -> str:
+def search_documents_wrapped(query:str) -> str:
     return search_documents.invoke({"query": query, "retriever": retriever})
 def deadline_lookup_wrapped(task_name: str)-> str:
     return deadline_lookup.invoke({"task_name": task_name, "deadline_retriever": deadline_retriever})
@@ -41,11 +45,13 @@ def rubric_check_wrapped(draft_text: str) -> str:
     return rubric_check.invoke({"draft_text": draft_text, "rubric_text": rubric_text, "llm": llm})
 
 
-#this wil lloead the rubric once so we dont have to load it everytime
-with open("docs/Rubric.txt", "r") as f:
-    rubric_text= f.read()
+tools =[
+    type(search_documents)(name="search_documents", func=search_documents_wrapped, description= search_documents.description),
+    type(deadline_lookup)(name="deadline_lookup", func=deadline_lookup_wrapped, description= deadline_lookup.description),
+    type(rubric_check)(name="rubric_check", func=rubric_check_wrapped, description= rubric_check.description),
+]
 
-tools =[]
+
 
 
 agent = SimpleAgent(llm, retriever)
